@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+    <h1 style="text-align: center;">Quản lý sinh viên</h1>
+    <hr>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <span id="lblMasv"></span>
+        <input type="text" name="masv" id="masv" placeholder="Nhập mã sp." required="required" onchange="return checkMaSV();" />
+        <span id="lblTen"></span>
+        <input type="text" name="ten" id="ten" placeholder="Nhập tên sp." required="required" />
+        <span id="lblNgaySinh"></span>
+        <input type="text" name="ngaySinh" id="ngaySinh" placeholder="Nhập ngày sinh." required="required" />
+        <span id="lblLop"></span>
+        <input type="text" name="lop" id="lop" placeholder="Nhập lớp" required="required" />
+        <input type="submit" value="Them sp" onclick="return check_data();">
+
+    </form>
+
+    <table border="1 ">
+        <tr>
+            <th>STT</th>
+            <th>Ma SP</th>
+            <th>Ten SP</th>
+            <th>Ngay Sinh</th>
+            <th>Lop</th>
+            <th>About</th>
+        </tr>
+        <% for(let i = 0; i < dsSinhvien.length; i++) { %>
+            <tr>
+                <td style="text-align: center;">
+                    <%=i+1%>
+                </td>
+                <td>
+                    <%=dsSinhvien[i].masv%>
+                </td>
+                <td>
+                    <%=dsSinhvien[i].ten%>
+                </td>
+                <td>
+                    <%=dsSinhvien[i].ngaySinh%>
+                </td>
+                <td>
+                    <%=dsSinhvien[i].lop%>
+                </td>
+                <td>
+                    <form action="/delete" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="masv" value="<%=dsSinhvien[i].masv%>" />
+                        <input type="submit" value="Del" style="background-color: rgb(255, 66, 66);" />
+                    </form>
+                    <form action="/update" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="masv" value="<%=dsSinhvien[i].masv%>" />
+                        <input type="submit" value="update" style="background-color: rgb(0, 179, 0);" />
+                    </form>
+
+                </td>
+            </tr>
+
+
+            <% } %>
+    </table>
+
+    <script>
+        function checkMaSV() {
+            let val = document.getElementById("masv").value;
+            let txtNote = document.getElementById("lblMasv");
+            let regex = /^[0-9]*$/;
+            if (val.length == 0) {
+                txtNote.innerHTML = '! Hãy nhập dữ liệu.';
+                return false;
+            }
+            if (!regex.test(val)) {
+                txtNote.innerHTML = '! Mã sinh viên phải là chữ số.';
+                return false;
+            }
+            console.log("77 ---", val);
+
+            txtNote.innerHTML = '';
+            return true;
+        }
+
+        function check_data() {
+            if (!checkMaSV()) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+
+</html>
